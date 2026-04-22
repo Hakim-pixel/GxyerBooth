@@ -642,12 +642,12 @@ export default function PhotoEditor() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] py-8 font-sans text-slate-800">
-      <header className="max-w-6xl mx-auto px-4 flex items-center justify-between mb-8">
-        <h1 className="text-4xl font-extrabold tracking-tight text-pink-600 flex items-center gap-3" style={{ color: '#ec4899' }}>
+      <header className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 sm:mb-8">
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-pink-600 flex items-center gap-3" style={{ color: '#ec4899' }}>
           ✨ GxyerBooth
         </h1>
-        <div className="flex gap-4">
-          <button className="px-6 py-2.5 rounded-full font-bold shadow-md bg-white hover:bg-pink-50 text-pink-600 transition border border-pink-100" onClick={() => { if (isCameraOn) stopCamera(); else startCamera() }}>
+        <div className="flex gap-4 w-full sm:w-auto">
+          <button className="w-full sm:w-auto px-6 py-2.5 rounded-full font-bold shadow-md bg-white hover:bg-pink-50 text-pink-600 transition border border-pink-100" onClick={() => { if (isCameraOn) stopCamera(); else startCamera() }}>
             {isCameraOn ? 'Stop Camera ⏹' : 'Start Camera 📸'}
           </button>
         </div>
@@ -656,25 +656,25 @@ export default function PhotoEditor() {
       <main className="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row gap-8 items-start">
         
         <div className="flex-1 bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-slate-100 flex flex-col w-full">
-          <div className="p-4 border-b flex flex-wrap gap-4 justify-between items-center bg-slate-50">
-             <div className="flex gap-2">
+          <div className="p-4 border-b flex flex-col sm:flex-row flex-wrap gap-4 justify-between items-center bg-slate-50">
+             <div className="flex flex-wrap gap-2 justify-center w-full sm:w-auto">
                <button className="px-4 py-2 rounded-full font-bold transition shadow-sm" style={{ backgroundColor: delay === 3 ? '#ec4899' : '#fff', color: delay === 3 ? '#fff' : '#475569', border: '1px solid #e2e8f0' }} onClick={() => setDelay(3)}>3s</button>
                <button className="px-4 py-2 rounded-full font-bold transition shadow-sm" style={{ backgroundColor: delay === 5 ? '#ec4899' : '#fff', color: delay === 5 ? '#fff' : '#475569', border: '1px solid #e2e8f0' }} onClick={() => setDelay(5)}>5s</button>
                <button className="px-4 py-2 rounded-full font-bold transition shadow-sm" style={{ backgroundColor: delay === 10 ? '#ec4899' : '#fff', color: delay === 10 ? '#fff' : '#475569', border: '1px solid #e2e8f0' }} onClick={() => setDelay(10)}>10s</button>
-               <button className="px-4 py-2 rounded-full font-bold transition shadow-sm ml-2" style={{ backgroundColor: showGrid ? '#8b5cf6' : '#fff', color: showGrid ? '#fff' : '#475569', border: '1px solid #e2e8f0' }} onClick={() => setShowGrid(!showGrid)}>Grid</button>
+               <button className="px-4 py-2 rounded-full font-bold transition shadow-sm sm:ml-2" style={{ backgroundColor: showGrid ? '#8b5cf6' : '#fff', color: showGrid ? '#fff' : '#475569', border: '1px solid #e2e8f0' }} onClick={() => setShowGrid(!showGrid)}>Grid</button>
              </div>
-             <div>
-               <label className="px-5 py-2 bg-white border border-slate-200 text-slate-600 font-bold rounded-full cursor-pointer hover:bg-slate-50 transition shadow-sm">
+             <div className="w-full sm:w-auto text-center">
+               <label className="inline-block w-full sm:w-auto px-5 py-2 bg-white border border-slate-200 text-slate-600 font-bold rounded-full cursor-pointer hover:bg-slate-50 transition shadow-sm">
                  Upload Photo
                  <input type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
                </label>
              </div>
           </div>
 
-          <div className="relative flex justify-center items-center bg-slate-100 p-4 lg:p-8" style={{ minHeight: 500 }}>
-             <div className="relative shadow-2xl rounded-2xl overflow-hidden" style={{ width: 760, height: 460 }}>
+          <div className="relative flex justify-center items-center bg-slate-100 p-4 lg:p-8 min-h-[300px] sm:min-h-[500px]">
+             <div className="relative shadow-2xl rounded-2xl overflow-hidden w-full max-w-[760px] aspect-[76/46]">
                 <canvas ref={canvasRef} className="w-full h-full block bg-white" />
-                <video ref={videoRef} autoPlay playsInline muted className={`absolute top-4 right-4 w-32 h-24 object-cover rounded-xl shadow-lg border-2 border-white/50 backdrop-blur ${isCameraOn ? '' : 'hidden'}`} style={{ transform: mirror ? 'scaleX(-1)' : 'none' }} />
+                <video ref={videoRef} autoPlay playsInline muted className={`absolute top-4 right-4 w-24 h-18 sm:w-32 sm:h-24 object-cover rounded-xl shadow-lg border-2 border-white/50 backdrop-blur ${isCameraOn ? '' : 'hidden'}`} style={{ transform: mirror ? 'scaleX(-1)' : 'none' }} />
              </div>
              {countdown > 0 && (
                 <div className="absolute inset-0 flex items-center justify-center z-20">
@@ -686,7 +686,7 @@ export default function PhotoEditor() {
           </div>
 
           <div className="p-6 bg-white flex flex-col items-center">
-             <button disabled={isCapturing} className="relative group px-12 py-5 rounded-full text-2xl font-black shadow-xl transition-transform" style={{ backgroundColor: isCapturing ? '#cbd5e1' : '#ec4899', color: isCapturing ? '#64748b' : '#ffffff', cursor: isCapturing ? 'not-allowed' : 'pointer' }} onClick={() => {
+             <button disabled={isCapturing} className="w-full sm:w-auto relative group px-6 sm:px-12 py-4 sm:py-5 rounded-full text-xl sm:text-2xl font-black shadow-xl transition-transform hover:scale-105 active:scale-95" style={{ backgroundColor: isCapturing ? '#cbd5e1' : '#ec4899', color: isCapturing ? '#64748b' : '#ffffff', cursor: isCapturing ? 'not-allowed' : 'pointer' }} onClick={() => {
                 if (isCapturing) return;
                 if (stripMode) captureSequence(stripCount)
                 else {
@@ -710,11 +710,11 @@ export default function PhotoEditor() {
                </label>
              </div>
 
-             <div className="w-full flex justify-between items-center mt-6 pt-6 border-t border-slate-100">
+             <div className="w-full flex flex-col sm:flex-row justify-between items-center mt-6 pt-6 border-t border-slate-100 gap-4">
                 <button className="text-slate-400 hover:text-slate-800 font-bold px-4 py-2 transition" onClick={resetTransform}>Reset Position</button>
-                <div className="flex gap-2">
-                  <button className="text-slate-500 hover:text-slate-800 font-bold px-4 py-2 bg-slate-100 rounded-lg transition" onClick={toggleFullscreen}>Fullscreen</button>
-                  <button className="text-white font-bold px-4 py-2 rounded-lg hover:bg-black transition shadow-md" style={{ backgroundColor: '#1e293b' }} onClick={downloadImage}>Save Frame</button>
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <button className="flex-1 sm:flex-none text-slate-500 hover:text-slate-800 font-bold px-4 py-2 bg-slate-100 rounded-lg transition" onClick={toggleFullscreen}>Fullscreen</button>
+                  <button className="flex-1 sm:flex-none text-white font-bold px-4 py-2 rounded-lg hover:bg-black transition shadow-md" style={{ backgroundColor: '#1e293b' }} onClick={downloadImage}>Save Frame</button>
                 </div>
              </div>
           </div>
