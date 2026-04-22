@@ -644,11 +644,11 @@ export default function PhotoEditor() {
     <div className="min-h-screen bg-[#f8f9fa] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] py-8 font-sans text-slate-800">
       <header className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 sm:mb-8">
         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-pink-600 flex items-center gap-3" style={{ color: '#ec4899' }}>
-          ✨ GxyerBooth
+           GxyerBooth
         </h1>
         <div className="flex gap-4 w-full sm:w-auto">
           <button className="w-full sm:w-auto px-6 py-2.5 rounded-full font-bold shadow-md bg-white hover:bg-pink-50 text-pink-600 transition border border-pink-100" onClick={() => { if (isCameraOn) stopCamera(); else startCamera() }}>
-            {isCameraOn ? 'Stop Camera ⏹' : 'Start Camera 📸'}
+            {isCameraOn ? 'Stop Camera ⏹' : 'Start Camera '}
           </button>
         </div>
       </header>
@@ -672,7 +672,7 @@ export default function PhotoEditor() {
           </div>
 
           <div className="relative flex justify-center items-center bg-slate-100 p-4 lg:p-8 min-h-[300px] sm:min-h-[500px]">
-             <div className="relative shadow-2xl rounded-2xl overflow-hidden w-full max-w-[760px] aspect-[76/46]">
+             <div className="relative shadow-2xl rounded-2xl overflow-hidden w-full max-w-[760px]" style={{ aspectRatio: '900 / 700' }}>
                 <canvas ref={canvasRef} className="w-full h-full block bg-white" />
                 <video ref={videoRef} autoPlay playsInline muted className={`absolute top-4 right-4 w-24 h-18 sm:w-32 sm:h-24 object-cover rounded-xl shadow-lg border-2 border-white/50 backdrop-blur ${isCameraOn ? '' : 'hidden'}`} style={{ transform: mirror ? 'scaleX(-1)' : 'none' }} />
              </div>
