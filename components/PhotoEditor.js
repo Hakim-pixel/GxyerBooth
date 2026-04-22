@@ -138,6 +138,7 @@ export default function PhotoEditor() {
 
     // central photo / live-video area
     const targetBaseW = 480
+    const targetBaseH = 480 // Square!
     const video = videoRef.current
 
     ctx.save()
@@ -147,9 +148,25 @@ export default function PhotoEditor() {
       const vw = video.videoWidth || 640
       const vh = video.videoHeight || 480
       const tW = targetBaseW * scale
-      const tH = (vh / vw) * tW
+      const tH = targetBaseH * scale
       const x = (w - tW) / 2 + offsetX
       const y = (h - tH) / 2 + offsetY
+
+      // object-cover math
+      const videoRatio = vw / vh
+      const targetRatio = tW / tH
+      let drawW, drawH, drawX, drawY
+      if (videoRatio > targetRatio) {
+         drawH = tH
+         drawW = tH * videoRatio
+         drawX = x - (drawW - tW) / 2
+         drawY = y
+      } else {
+         drawW = tW
+         drawH = tW / videoRatio
+         drawX = x
+         drawY = y - (drawH - tH) / 2
+      }
 
       ctx.save()
       roundRect(ctx, x - 6, y - 6, tW + 12, tH + 12, 20)
@@ -158,9 +175,9 @@ export default function PhotoEditor() {
         if (mirror) {
           ctx.translate(x + tW / 2, y + tH / 2)
           ctx.scale(-1, 1)
-          ctx.drawImage(video, -tW / 2, -tH / 2, tW, tH)
+          ctx.drawImage(video, drawX - (x + tW / 2), drawY - (y + tH / 2), drawW, drawH)
         } else {
-          ctx.drawImage(video, x, y, tW, tH)
+          ctx.drawImage(video, drawX, drawY, drawW, drawH)
         }
       } catch (e) {
         // ignore
@@ -170,19 +187,35 @@ export default function PhotoEditor() {
       const pw = photo.width
       const ph = photo.height
       const tW = targetBaseW * scale
-      const tH = (ph / pw) * tW
+      const tH = targetBaseH * scale
       const x = (w - tW) / 2 + offsetX
       const y = (h - tH) / 2 + offsetY
+
+      // object-cover math
+      const photoRatio = pw / ph
+      const targetRatio = tW / tH
+      let drawW, drawH, drawX, drawY
+      if (photoRatio > targetRatio) {
+         drawH = tH
+         drawW = tH * photoRatio
+         drawX = x - (drawW - tW) / 2
+         drawY = y
+      } else {
+         drawW = tW
+         drawH = tW / photoRatio
+         drawX = x
+         drawY = y - (drawH - tH) / 2
+      }
 
       ctx.save()
       roundRect(ctx, x - 6, y - 6, tW + 12, tH + 12, 20)
       ctx.clip()
-      ctx.drawImage(photo, x, y, tW, tH)
+      ctx.drawImage(photo, drawX, drawY, drawW, drawH)
       ctx.restore()
     } else {
       ctx.fillStyle = '#ffffff33'
       const pw = targetBaseW * scale
-      const ph = pw * 0.75
+      const ph = targetBaseH * scale
       const x = (w - pw) / 2 + offsetX
       const y = (h - ph) / 2 + offsetY
       roundRect(ctx, x, y, pw, ph, 16)
@@ -494,8 +527,15 @@ export default function PhotoEditor() {
       })
     }))
 
-    const w = images[0].width
-    const h = images[0].height
+    const rawW = images[0].width
+    const rawH = images[0].height
+    // Crop to center square to match UI preview
+    const size = Math.min(rawW, rawH)
+    const cropX = (rawW - size) / 2
+    const cropY = (rawH - size) / 2
+
+    const w = size
+    const h = size
     const pad = Math.round(w * 0.08)
     
     const cols = layoutMode.includes('grid') ? 2 : 1
@@ -538,7 +578,7 @@ export default function PhotoEditor() {
       const x = pad + col * (w + pad)
       const y = pad + row * (h + pad)
       
-      ctx.drawImage(im, x, y, w, h)
+      ctx.drawImage(im, cropX, cropY, size, size, x, y, w, h)
       ctx.strokeStyle = '#00000015'
       ctx.lineWidth = 4
       ctx.strokeRect(x, y, w, h)

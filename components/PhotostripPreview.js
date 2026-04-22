@@ -23,13 +23,13 @@ export default function PhotostripPreview({
          <div className={`grid gap-3 relative z-10 ${layoutMode.includes('grid') ? 'grid-cols-2' : 'grid-cols-1'}`}>
            {stripPhotos.length === 0 ? (
               Array.from({ length: stripCount }).map((_, i) => (
-                <div key={i} className="aspect-[4/3] bg-black/10 rounded border border-black/5 flex items-center justify-center">
+                <div key={i} className="aspect-square bg-black/10 rounded border border-black/5 flex items-center justify-center">
                   <span className="text-black/30 font-bold text-xl">{i+1}</span>
                 </div>
               ))
            ) : (
               stripPhotos.map((src, i) => (
-                <div key={i} className="aspect-[4/3] rounded border border-black/5 overflow-hidden bg-black/5">
+                <div key={i} className="aspect-square rounded border border-black/5 overflow-hidden bg-black/5">
                   <img src={src} className="w-full h-full object-cover" />
                 </div>
               ))
